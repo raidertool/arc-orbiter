@@ -1,0 +1,2 @@
+window.ARC_ORBITER_DATA_BASE = "";
+window.STELLA_MONTIS_MANIFEST = "";

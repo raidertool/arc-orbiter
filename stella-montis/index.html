@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Stella Montis - Arc Orbiter</title>
+    <link rel="stylesheet" href="../viewer/stella-montis/styles.css">
+  </head>
+  <body>
+    <canvas id="viewport"></canvas>
+    <canvas id="axis-gizmo" width="128" height="128" aria-hidden="true"></canvas>
+    <div id="telemetry" aria-live="polite">XYZ --, --, --<br>Head -- Pitch --</div>
+    <section id="hud" aria-live="polite">
+      <div class="title">Stella Montis</div>
+      <div id="status">Loading manifest...</div>
+      <div class="controls">
+        <span>WASD</span>
+        <span>Q/E</span>
+        <span>Mouse</span>
+        <span>Shift</span>
+        <span>X-ray</span>
+        <span>C probe</span>
+        <span>-/+</span>
+      </div>
+      <div class="settings">
+        <label class="toggle">
+          <input id="xray" type="checkbox">
+          <span>X-ray</span>
+        </label>
+        <label class="range-control" for="speed">
+          <span>Speed</span>
+          <button id="speed-down" type="button" title="Slower">-</button>
+          <input id="speed" type="range" min="0.1" max="10" step="0.05" value="0.5">
+          <button id="speed-up" type="button" title="Faster">+</button>
+          <output id="speed-value" for="speed">0.5</output>
+        </label>
+        <label class="range-control scale-control" for="scale">
+          <span>Scale</span>
+          <input id="scale" type="range" min="0.25" max="4" step="0.05" value="1">
+          <output id="scale-value" for="scale">1x</output>
+        </label>
+      </div>
+    </section>
+    <button id="lock" type="button" title="Capture mouse">Enter flythrough</button>
+    <script src="./config.js"></script>
+    <script>
+      if (!window.STELLA_MONTIS_MANIFEST && window.ARC_ORBITER_DATA_BASE) {
+        const base = window.ARC_ORBITER_DATA_BASE.replace(/\/+$/, "");
+        window.STELLA_MONTIS_MANIFEST = `${base}/stella-montis/full-scene-packed-v15-poi-transforms-objects-gzip/manifest.json`;
+      }
+    </script>
+    <script
+      type="module"
+      src="../viewer/stella-montis/app.js?v=r2-shell-v1"
+      data-default-manifest=""
+    ></script>
+  </body>
+</html>
