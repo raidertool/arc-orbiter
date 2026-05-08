@@ -1,2 +1,2 @@
-window.ARC_ORBITER_DATA_BASE = "";
+window.ARC_ORBITER_DATA_BASE = "https://pub-973b65a97955492a9789a3bdb5a8159e.r2.dev";
 window.STELLA_MONTIS_MANIFEST = "";
