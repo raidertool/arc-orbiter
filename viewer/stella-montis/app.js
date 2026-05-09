@@ -1187,9 +1187,20 @@ function setStatus(message) {
 }
 
 async function fetchJson(url) {
-  const response = await fetch(url);
-  if (!response.ok) throw new Error(`${url.pathname}: ${response.status} ${response.statusText}`);
-  return response.json();
+  const response = await fetch(url, { cache: "no-cache" });
+  const contentType = response.headers.get("content-type") || "";
+  const text = await response.text();
+  if (!response.ok) {
+    throw new Error(`${url.href}: ${response.status} ${response.statusText}; ${snippet(text)}`);
+  }
+  if (!contentType.toLowerCase().includes("json")) {
+    throw new Error(`${url.href}: expected JSON, got ${contentType || "unknown content-type"}; ${snippet(text)}`);
+  }
+  try {
+    return JSON.parse(text);
+  } catch (error) {
+    throw new Error(`${url.href}: invalid JSON (${error.message}); ${snippet(text)}`);
+  }
 }
 
 async function fetchText(url) {
@@ -1202,6 +1213,10 @@ async function fetchArrayBuffer(url) {
   const response = await fetch(url);
   if (!response.ok) throw new Error(`${url.pathname}: ${response.status} ${response.statusText}`);
   return response.arrayBuffer();
+}
+
+function snippet(text) {
+  return text.trim().slice(0, 120).replace(/\s+/g, " ");
 }
 
 function nextPaint() {
